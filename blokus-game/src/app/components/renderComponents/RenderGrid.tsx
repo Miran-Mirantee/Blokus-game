@@ -3,8 +3,8 @@
 import CreateGrid from "../logicComponents/CreateGrid";
 import { Matrix } from "ts-matrix";
 import { useState } from "react";
-
-type CoordinatesArray = Array<[number, number, number]>;
+import CoordinatesArray from "@/app/types/CoordinatesArray";
+import CreatePiece from "../logicComponents/CreatePiece";
 
 export const RenderGrid = () => {
   const matrix = new Matrix(20, 20);
@@ -44,18 +44,6 @@ export const RenderGrid = () => {
   //   return updatedBoard;
   // };
 
-  const pieces = {
-    oneSquare: (x: number, y: number, value: number) => {
-      return [
-        [x, y, value],
-        [x - 1, y, value],
-        [x + 1, y, value],
-        [x, y - 1, value],
-        [x, y + 1, value],
-      ] as CoordinatesArray;
-    },
-  };
-
   return (
     <div className="flex flex-col bg-red-100 shadow-none shadow-rose-700">
       {board.map((column: any, columnIndex) => {
@@ -77,7 +65,27 @@ export const RenderGrid = () => {
                         rowIndex,
                         columnIndex,
                         1,
-                        pieces.oneSquare
+                        CreatePiece.oneSquare
+                        // CreatePiece.twoSquare
+                        // CreatePiece.threeSquare
+                        // CreatePiece.threeSquare2
+                        // CreatePiece.fourSquare
+                        // CreatePiece.fourSquare2
+                        // CreatePiece.fourSquare3
+                        // CreatePiece.fourSquare4
+                        // CreatePiece.fourSquare5
+                        // CreatePiece.fiveSquare
+                        // CreatePiece.fiveSquare2
+                        // CreatePiece.fiveSquare3
+                        // CreatePiece.fiveSquare4
+                        // CreatePiece.fiveSquare5
+                        // CreatePiece.fiveSquare6
+                        // CreatePiece.fiveSquare7
+                        // CreatePiece.fiveSquare8
+                        // CreatePiece.fiveSquare9
+                        // CreatePiece.fiveSquare10
+                        // CreatePiece.fiveSquare11
+                        // CreatePiece.fiveSquare12
                       )
                     );
                   }}
