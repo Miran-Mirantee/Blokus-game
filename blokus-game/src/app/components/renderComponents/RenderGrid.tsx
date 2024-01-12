@@ -2,35 +2,16 @@
 
 import { Matrix } from "ts-matrix";
 import { useState } from "react";
-// import CoordinatesArray from "@/app/types/CoordinatesArray";
 import CreatePiece from "../logicComponents/CreatePiece";
 import UpdateBoardValues from "../logicComponents/UpdateBoardValues";
 
-export const RenderGrid = () => {
+interface ParentComponentProps {
+  pieceId: keyof typeof CreatePiece;
+}
+
+export const RenderGrid = (prop: ParentComponentProps) => {
   const matrix = new Matrix(20, 20);
   const [board, setBoard] = useState(matrix.values);
-
-  // const UpdateBoardValues = (
-  //   x: number,
-  //   y: number,
-  //   value: number,
-  //   board: number[][],
-  //   callback: (x: number, y: number, value: number) => CoordinatesArray
-  // ) => {
-  //   let updatedBoard = [...board]; // Assuming board is your original array
-  //   const coordinates: CoordinatesArray = callback(x, y, value);
-
-  //   coordinates.forEach(([x, y, newValue]: [number, number, number]) => {
-  //     updatedBoard = updatedBoard.map((row, cIndex) => {
-  //       if (cIndex === y) {
-  //         return row.map((value, rIndex) => (rIndex === x ? newValue : value));
-  //       }
-  //       return row;
-  //     });
-  //   });
-
-  //   return updatedBoard;
-  // };
 
   return (
     <div className="flex flex-col bg-red-100 shadow-none shadow-rose-700 ">
@@ -54,7 +35,8 @@ export const RenderGrid = () => {
                         columnIndex,
                         1,
                         board,
-                        CreatePiece.oneSquare
+                        prop.pieceId
+                        // CreatePiece.oneSquare
                         // CreatePiece.twoSquare
                         // CreatePiece.threeSquare
                         // CreatePiece.threeSquare2
