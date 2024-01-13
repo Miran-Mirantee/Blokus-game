@@ -13,13 +13,14 @@ const UpdateBoardValues = (
   value: number,
   board: number[][],
   createSquareId: keyof typeof CreatePiece
-  //   callback: (x: number, y: number, value: number) => CoordinatesArray
 ) => {
   let updatedBoard = [...board]; // Assuming board is your original array
-  //   const coordinates: CoordinatesArray = callback(x, y, value);
+
+  // in case the piece id doesn't match any id at all (which is impossible of course)
   if (createSquareId in CreatePiece == false) {
     return updatedBoard;
   }
+
   // Retrieve the appropriate CreateSquare function based on the id
   const createSquareFunction = CreatePiece[
     createSquareId
