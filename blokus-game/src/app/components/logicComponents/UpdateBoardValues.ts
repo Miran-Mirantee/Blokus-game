@@ -1,5 +1,6 @@
 import CoordinatesArray from "@/app/types/CoordinatesArray";
 import CreatePiece from "./CreatePiece";
+import RotatePiece from "./RotatePiece";
 
 type CreateSquareCallback = (
   x: number,
@@ -12,7 +13,8 @@ const UpdateBoardValues = (
   y: number,
   value: number,
   board: number[][],
-  createSquareId: keyof typeof CreatePiece
+  createSquareId: keyof typeof CreatePiece,
+  rotateCount: number
 ) => {
   let updatedBoard = [...board]; // Assuming board is your original array
 
@@ -28,8 +30,13 @@ const UpdateBoardValues = (
 
   // Call the callback function with the necessary parameters
   const coordinates: CoordinatesArray = createSquareFunction(x, y, value);
+  const rotatedCoordinates: any = RotatePiece(coordinates, rotateCount);
 
-  coordinates.forEach(([x, y, newValue]: [number, number, number]) => {
+  console.log("original", coordinates);
+  console.log("rotated", rotatedCoordinates);
+
+  // coordinates.forEach(([x, y, newValue]: [number, number, number]) => {
+  rotatedCoordinates.forEach(([x, y, newValue]: [number, number, number]) => {
     updatedBoard = updatedBoard.map((row, cIndex) => {
       if (cIndex === y) {
         return row.map((value, rIndex) => (rIndex === x ? newValue : value));

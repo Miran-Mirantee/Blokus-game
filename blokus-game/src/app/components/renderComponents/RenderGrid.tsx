@@ -7,6 +7,7 @@ import UpdateBoardValues from "../logicComponents/UpdateBoardValues";
 
 interface ParentComponentProps {
   pieceId: keyof typeof CreatePiece;
+  pieceRotateCount: number;
 }
 
 export const RenderGrid = (prop: ParentComponentProps) => {
@@ -35,7 +36,8 @@ export const RenderGrid = (prop: ParentComponentProps) => {
                         columnIndex,
                         1,
                         board,
-                        prop.pieceId
+                        prop.pieceId,
+                        prop.pieceRotateCount
                         // CreatePiece.oneSquare
                         // CreatePiece.twoSquare
                         // CreatePiece.threeSquare
