@@ -11,6 +11,7 @@ export default function Home() {
   const [pieceId, setPieceId] =
     useState<keyof typeof CreatePiece>("fiveSquare3");
   const [rotateCount, setRotateCount] = useState<number>(0);
+  const [position, setPosition] = useState({ x: 100, y: 100 });
 
   const handleChange = (event: SelectChangeEvent) => {
     setPieceId(event.target.value as keyof typeof CreatePiece);
@@ -23,8 +24,15 @@ export default function Home() {
     setRotateCount(0);
   };
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    setPosition({ x: e.clientX, y: e.clientY });
+  };
+
   return (
-    <div className="flex min-h-screen justify-center items-center gap-9">
+    <div
+      className="flex min-h-screen justify-center items-center gap-9 "
+      onMouseMove={handleMouseMove}
+    >
       <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col ml-9"></div>
       <RenderGrid
         pieceId={pieceId}
@@ -71,6 +79,10 @@ export default function Home() {
           Rotate: {rotateCount}
         </Button>
       </div>
+      <div
+        className="h-10 w-10 absolute bg-green-400 pointer-events-none"
+        style={{ top: `${position.y - 20}px`, left: `${position.x - 20}px` }}
+      ></div>
     </div>
   );
 }
