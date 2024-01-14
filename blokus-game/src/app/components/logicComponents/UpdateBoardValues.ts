@@ -32,9 +32,6 @@ const UpdateBoardValues = (
   const coordinates: CoordinatesArray = createSquareFunction(x, y, value);
   const rotatedCoordinates: any = RotatePiece(coordinates, rotateCount);
 
-  console.log("original", coordinates);
-  console.log("rotated", rotatedCoordinates);
-
   // coordinates.forEach(([x, y, newValue]: [number, number, number]) => {
   rotatedCoordinates.forEach(([x, y, newValue]: [number, number, number]) => {
     updatedBoard = updatedBoard.map((row, cIndex) => {

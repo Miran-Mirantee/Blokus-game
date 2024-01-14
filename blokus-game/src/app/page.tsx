@@ -16,14 +16,21 @@ export default function Home() {
     setPieceId(event.target.value as keyof typeof CreatePiece);
   };
 
-  const handleClickRotate = () => {
+  const handleClickAddRotateCount = () => {
     setRotateCount(rotateCount + 1);
+  };
+  const handleClickResetRotateCount = () => {
+    setRotateCount(0);
   };
 
   return (
     <div className="flex min-h-screen justify-center items-center gap-9">
       <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col ml-9"></div>
-      <RenderGrid pieceId={pieceId} pieceRotateCount={rotateCount} />
+      <RenderGrid
+        pieceId={pieceId}
+        pieceRotateCount={rotateCount}
+        onClick={handleClickResetRotateCount}
+      />
       <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col mr-9">
         {/* this is for debugging */}
         <Select
@@ -59,7 +66,7 @@ export default function Home() {
         <Button
           color="secondary"
           variant="contained"
-          onClick={handleClickRotate}
+          onClick={handleClickAddRotateCount}
         >
           Rotate: {rotateCount}
         </Button>

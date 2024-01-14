@@ -8,6 +8,7 @@ import UpdateBoardValues from "../logicComponents/UpdateBoardValues";
 interface ParentComponentProps {
   pieceId: keyof typeof CreatePiece;
   pieceRotateCount: number;
+  onClick: any;
 }
 
 export const RenderGrid = (prop: ParentComponentProps) => {
@@ -15,7 +16,10 @@ export const RenderGrid = (prop: ParentComponentProps) => {
   const [board, setBoard] = useState(matrix.values);
 
   return (
-    <div className="flex flex-col bg-red-100 shadow-none shadow-rose-700 ">
+    <div
+      className="flex flex-col bg-red-100 shadow-none shadow-rose-700 "
+      onClick={prop.onClick}
+    >
       {board.map((column: any, columnIndex) => {
         return (
           <div
@@ -38,27 +42,6 @@ export const RenderGrid = (prop: ParentComponentProps) => {
                         board,
                         prop.pieceId,
                         prop.pieceRotateCount
-                        // CreatePiece.oneSquare
-                        // CreatePiece.twoSquare
-                        // CreatePiece.threeSquare
-                        // CreatePiece.threeSquare2
-                        // CreatePiece.fourSquare
-                        // CreatePiece.fourSquare2
-                        // CreatePiece.fourSquare3
-                        // CreatePiece.fourSquare4
-                        // CreatePiece.fourSquare5
-                        // CreatePiece.fiveSquare
-                        // CreatePiece.fiveSquare2
-                        // CreatePiece.fiveSquare3
-                        // CreatePiece.fiveSquare4
-                        // CreatePiece.fiveSquare5
-                        // CreatePiece.fiveSquare6
-                        // CreatePiece.fiveSquare7
-                        // CreatePiece.fiveSquare8
-                        // CreatePiece.fiveSquare9
-                        // CreatePiece.fiveSquare10
-                        // CreatePiece.fiveSquare11
-                        // CreatePiece.fiveSquare12
                       )
                     );
                   }}
