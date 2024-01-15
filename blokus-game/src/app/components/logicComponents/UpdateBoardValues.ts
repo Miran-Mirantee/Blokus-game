@@ -1,12 +1,7 @@
 import CoordinatesArray from "@/app/types/CoordinatesArray";
+import CreateSquareCallback from "@/app/types/CreateSquareCallback";
 import CreatePiece from "./CreatePiece";
 import RotatePiece from "./RotatePiece";
-
-type CreateSquareCallback = (
-  x: number,
-  y: number,
-  value: number
-) => CoordinatesArray;
 
 const UpdateBoardValues = (
   x: number,
@@ -30,7 +25,10 @@ const UpdateBoardValues = (
 
   // Call the callback function with the necessary parameters
   const coordinates: CoordinatesArray = createSquareFunction(x, y, value);
-  const rotatedCoordinates: any = RotatePiece(coordinates, rotateCount);
+  const rotatedCoordinates: CoordinatesArray = RotatePiece(
+    coordinates,
+    rotateCount
+  );
 
   // coordinates.forEach(([x, y, newValue]: [number, number, number]) => {
   rotatedCoordinates.forEach(([x, y, newValue]: [number, number, number]) => {
