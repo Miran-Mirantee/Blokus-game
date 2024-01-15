@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import RenderGrid from "./components/renderComponents/RenderGrid";
+import RenderPiece from "./components/renderComponents/RenderPiece";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Button } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
@@ -33,6 +34,12 @@ export default function Home() {
       className="flex min-h-screen justify-center items-center gap-9 "
       onMouseMove={handleMouseMove}
     >
+      <RenderPiece
+        pieceId={pieceId}
+        pieceRotateCount={rotateCount}
+        position={position}
+      />
+
       <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col ml-9"></div>
       <RenderGrid
         pieceId={pieceId}
@@ -79,10 +86,6 @@ export default function Home() {
           Rotate: {rotateCount}
         </Button>
       </div>
-      <div
-        className="h-10 w-10 absolute bg-green-400 pointer-events-none"
-        style={{ top: `${position.y - 20}px`, left: `${position.x - 20}px` }}
-      ></div>
     </div>
   );
 }
