@@ -2,6 +2,7 @@ import CoordinatesArray from "@/app/types/CoordinatesArray";
 import CreateSquareCallback from "@/app/types/CreateSquareCallback";
 import CreatePiece from "./CreatePiece";
 import RotatePiece from "./RotatePiece";
+import GameLogic from "./GameLogic";
 
 const UpdateBoardValues = (
   x: number,
@@ -30,15 +31,17 @@ const UpdateBoardValues = (
     rotateCount
   );
 
-  // coordinates.forEach(([x, y, newValue]: [number, number, number]) => {
-  rotatedCoordinates.forEach(([x, y, newValue]: [number, number, number]) => {
-    updatedBoard = updatedBoard.map((row, cIndex) => {
-      if (cIndex === y) {
-        return row.map((value, rIndex) => (rIndex === x ? newValue : value));
-      }
-      return row;
+  // check if the blokus piece is placable
+  if (GameLogic.isPlacable(rotatedCoordinates)) {
+    rotatedCoordinates.forEach(([x, y, newValue]: [number, number, number]) => {
+      updatedBoard = updatedBoard.map((row, cIndex) => {
+        if (cIndex === y) {
+          return row.map((value, rIndex) => (rIndex === x ? newValue : value));
+        }
+        return row;
+      });
     });
-  });
+  }
 
   return updatedBoard;
 };

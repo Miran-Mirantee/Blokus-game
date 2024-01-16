@@ -32,15 +32,18 @@ const RenderPiece = (prop: ParentComponentProps) => {
   return (
     <div
       className="absolute pointer-events-none"
-      style={{ top: `${prop.position.y}px`, left: `${prop.position.x}px` }}
+      style={{
+        top: `${prop.position.y - 20}px`,
+        left: `${prop.position.x - 20}px`,
+      }}
     >
       {rotatedCoordinates.map((coordinate, index) => (
         <div
           key={index}
-          className={`absolute h-10 w-10 bg-violet-400 `}
+          className={`absolute h-10 w-10 bg-violet-400 opacity-50`}
           style={{
-            top: `${(coordinate[1] + 1) * 40}px`,
-            left: `${(coordinate[0] + 1) * 40}px`,
+            top: `${coordinate[1] * 40}px`,
+            left: `${coordinate[0] * 40}px`,
           }}
         ></div>
       ))}
