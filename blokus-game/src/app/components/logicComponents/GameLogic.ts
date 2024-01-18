@@ -13,6 +13,18 @@ const GameLogic = {
     });
     return result;
   },
+  isOverlap: (board: number[][], coordinates: CoordinatesArray) => {
+    for (const coordinate of coordinates) {
+      const x = coordinate[0];
+      const y = coordinate[1];
+      // "y" go first, you idiot.
+      // can't believe I stuck onto this stupid problem for HOUR!!!!
+      if (board[y][x]) {
+        return true;
+      }
+    }
+    return false;
+  },
 };
 
 export default GameLogic;

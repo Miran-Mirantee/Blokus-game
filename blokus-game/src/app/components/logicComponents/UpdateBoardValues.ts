@@ -37,6 +37,11 @@ const UpdateBoardValues = (
     return updatedBoard;
   }
 
+  // check if the blokus piece is overlapping another piece
+  if (GameLogic.isOverlap(updatedBoard, rotatedCoordinates)) {
+    return updatedBoard;
+  }
+
   // place a blokus piece on board
   rotatedCoordinates.forEach(([x, y, newValue]: [number, number, number]) => {
     updatedBoard = updatedBoard.map((row, cIndex) => {
