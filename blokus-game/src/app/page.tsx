@@ -31,7 +31,7 @@ export default function Home() {
 
   return (
     <div
-      className="flex min-h-screen justify-center items-center gap-9 "
+      className="flex min-h-screen justify-center items-center gap-9 relative overflow-hidden"
       onMouseMove={handleMouseMove}
     >
       <RenderPiece

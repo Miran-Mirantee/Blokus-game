@@ -18,6 +18,7 @@ export const RenderGrid = (prop: ParentComponentProps) => {
   return (
     <div
       className="flex flex-col bg-red-100 shadow-none shadow-rose-700 "
+      // bugged: it shouldn't rotate back when unsuccessfully place the piece
       onClick={prop.onClick}
     >
       {board.map((column: any, columnIndex) => {
