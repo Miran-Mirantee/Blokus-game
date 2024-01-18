@@ -44,7 +44,7 @@ export default function Home() {
       <RenderGrid
         pieceId={pieceId}
         pieceRotateCount={rotateCount}
-        onClick={handleClickResetRotateCount}
+        resetCountFunction={handleClickResetRotateCount}
       />
       <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col mr-9">
         {/* this is for debugging */}

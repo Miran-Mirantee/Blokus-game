@@ -1,17 +1,17 @@
 "use client";
 
 import { Matrix } from "ts-matrix";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CreatePiece from "../logicComponents/CreatePiece";
 import UpdateBoardValues from "../logicComponents/UpdateBoardValues";
 
 interface ParentComponentProps {
   pieceId: keyof typeof CreatePiece;
   pieceRotateCount: number;
-  onClick: any;
+  resetCountFunction: any;
 }
 
-export const RenderGrid = (prop: ParentComponentProps) => {
+export const RenderGrid = (props: ParentComponentProps) => {
   const matrix = new Matrix(20, 20);
   const [board, setBoard] = useState(matrix.values);
 
@@ -19,7 +19,6 @@ export const RenderGrid = (prop: ParentComponentProps) => {
     <div
       className="flex flex-col bg-red-100 shadow-none shadow-rose-700 "
       // bugged: it shouldn't rotate back when unsuccessfully place the piece
-      onClick={prop.onClick}
     >
       {board.map((column: any, columnIndex) => {
         return (
@@ -41,8 +40,9 @@ export const RenderGrid = (prop: ParentComponentProps) => {
                         columnIndex,
                         1,
                         board,
-                        prop.pieceId,
-                        prop.pieceRotateCount
+                        props.pieceId,
+                        props.pieceRotateCount,
+                        props.resetCountFunction
                       )
                     );
                   }}

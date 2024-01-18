@@ -10,7 +10,8 @@ const UpdateBoardValues = (
   value: number,
   board: number[][],
   createSquareId: keyof typeof CreatePiece,
-  rotateCount: number
+  rotateCount: number,
+  resetCallback: any
 ) => {
   let updatedBoard = [...board]; // Assuming board is your original array
 
@@ -32,17 +33,21 @@ const UpdateBoardValues = (
   );
 
   // check if the blokus piece is placable
-  if (GameLogic.isPlacable(rotatedCoordinates)) {
-    rotatedCoordinates.forEach(([x, y, newValue]: [number, number, number]) => {
-      updatedBoard = updatedBoard.map((row, cIndex) => {
-        if (cIndex === y) {
-          return row.map((value, rIndex) => (rIndex === x ? newValue : value));
-        }
-        return row;
-      });
-    });
+  if (!GameLogic.isPlacable(rotatedCoordinates)) {
+    return updatedBoard;
   }
 
+  // place a blokus piece on board
+  rotatedCoordinates.forEach(([x, y, newValue]: [number, number, number]) => {
+    updatedBoard = updatedBoard.map((row, cIndex) => {
+      if (cIndex === y) {
+        return row.map((value, rIndex) => (rIndex === x ? newValue : value));
+      }
+      return row;
+    });
+  });
+
+  resetCallback();
   return updatedBoard;
 };
 
