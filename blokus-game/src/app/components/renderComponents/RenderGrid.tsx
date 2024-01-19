@@ -15,11 +15,13 @@ export const RenderGrid = (props: ParentComponentProps) => {
   const matrix = new Matrix(20, 20);
   const [board, setBoard] = useState(matrix.values);
 
+  useEffect(() => {
+    let newBoard = [...board];
+    newBoard[10][10] = 1;
+  }, [board]);
+
   return (
-    <div
-      className="flex flex-col bg-red-100 shadow-none shadow-rose-700 "
-      // bugged: it shouldn't rotate back when unsuccessfully place the piece
-    >
+    <div className="flex flex-col bg-red-100 shadow-none shadow-rose-700 ">
       {board.map((column: any, columnIndex) => {
         return (
           <div

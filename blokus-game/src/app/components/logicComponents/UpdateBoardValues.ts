@@ -33,12 +33,16 @@ const UpdateBoardValues = (
   );
 
   // check if the blokus piece is placable
-  if (!GameLogic.isPlacable(rotatedCoordinates)) {
+  if (!GameLogic.isOutOfBound(rotatedCoordinates)) {
     return updatedBoard;
   }
 
   // check if the blokus piece is overlapping another piece
   if (GameLogic.isOverlap(updatedBoard, rotatedCoordinates)) {
+    return updatedBoard;
+  }
+
+  if (!GameLogic.isPlaceable(updatedBoard, rotatedCoordinates)) {
     return updatedBoard;
   }
 
