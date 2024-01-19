@@ -41,7 +41,6 @@ const GameLogic = {
 
       for (const [nx, ny] of neighbors) {
         if (isValidCoordinate(nx, ny) && board[ny][nx] === self) {
-          console.log(board[ny][nx]);
           return false;
         }
       }
@@ -58,7 +57,6 @@ const GameLogic = {
       ];
       for (const [nx, ny] of corners) {
         if (isValidCoordinate(nx, ny) && board[ny][nx] === self) {
-          console.log(ny, nx);
           return true;
         }
       }
