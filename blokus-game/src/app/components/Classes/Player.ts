@@ -3,12 +3,14 @@ import BlokusPieces from "@/app/types/BlokusPieces";
 class Player {
   name: string;
   color: string;
+  num: number;
   pieces: BlokusPieces;
   isPlayerTurn: boolean;
 
-  constructor(name: string, color: string) {
+  constructor(name: string, color: string, num: number) {
     this.name = name;
     this.color = color;
+    this.num = num;
     this.pieces = {
       oneSquare: { squares: 1, isUsed: false },
       twoSquare: { squares: 2, isUsed: false },

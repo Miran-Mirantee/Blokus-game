@@ -3,6 +3,7 @@ import CreateSquareCallback from "@/app/types/CreateSquareCallback";
 import CreatePiece from "./CreatePiece";
 import RotatePiece from "./RotatePiece";
 import GameLogic from "./GameLogic";
+import Game from "../Classes/Game";
 
 const UpdateBoardValues = (
   x: number,
@@ -11,7 +12,8 @@ const UpdateBoardValues = (
   board: number[][],
   createSquareId: keyof typeof CreatePiece,
   rotateCount: number,
-  resetCallback: any
+  resetCallback: any,
+  game: Game
 ) => {
   let updatedBoard = [...board]; // Assuming board is your original array
 
@@ -56,6 +58,7 @@ const UpdateBoardValues = (
     });
   });
 
+  game.playerPlaceBlokus(createSquareId);
   resetCallback();
   return updatedBoard;
 };

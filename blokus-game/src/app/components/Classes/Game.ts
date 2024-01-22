@@ -5,12 +5,14 @@ class Game {
   private static instance: Game | null = null;
 
   players: Player[];
+  currentPlayer: Player | null;
   // players: any;
   board: number[][];
 
   private constructor(players: Player[]) {
     this.players = players;
     this.board = this.createBoard();
+    this.currentPlayer = null;
   }
 
   // public static getInstance(players: Player[]): Game {
@@ -18,7 +20,6 @@ class Game {
     if (!Game.instance) {
       Game.instance = new Game(players);
     }
-
     return Game.instance;
   }
 
@@ -27,12 +28,15 @@ class Game {
   }
 
   public changeTurn(): void {
-    const prevPlayer = this.players.pop();
+    const prevPlayer = this.players.shift();
+    console.log(this.players);
+    // console.log("prevPlayer", prevPlayer);
     prevPlayer?.togglePlayerTurn();
     this.players[0].togglePlayerTurn();
     if (prevPlayer) {
       this.players.push(prevPlayer);
     }
+    this.currentPlayer = this.players[0];
   }
 
   public createBoard(): number[][] {
@@ -42,13 +46,19 @@ class Game {
   public gameStart(): void {
     this.board = this.createBoard();
     this.players[0].isPlayerTurn = true;
+    this.currentPlayer = this.players[0];
   }
 
-  public playerPlaceBlokus(player: Player, blokusPiece: string): void {
+  public playerPlaceBlokus(blokusPiece: string): void {
     // will have a problem in the future for sure
-    player.pieces[blokusPiece].isUsed = true;
+    if (this.currentPlayer) {
+      this.currentPlayer.pieces[blokusPiece].isUsed = true;
+    }
     this.changeTurn();
   }
 }
 
+// const player1 = new Player("nu_ko", "red", 1);
+// const player2 = new Player("mirantee", "blue", 2);
+// const gameInstance = Game.getInstance([player1, player2]);
 export default Game;
