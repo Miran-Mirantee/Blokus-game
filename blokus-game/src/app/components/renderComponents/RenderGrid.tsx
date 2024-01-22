@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import CreatePiece from "../logicComponents/CreatePiece";
 import UpdateBoardValues from "../logicComponents/UpdateBoardValues";
 import Game from "../Classes/Game";
+import Player from "../Classes/Player";
 
 interface ParentComponentProps {
   pieceId: keyof typeof CreatePiece;
@@ -12,7 +13,10 @@ interface ParentComponentProps {
 }
 
 export const RenderGrid = (props: ParentComponentProps) => {
-  const game = Game.getInstance({});
+  // not an ideal practice, but this will do for now
+  const player1 = new Player("mirantee", "blue");
+  const player2 = new Player("nu_ko", "red");
+  const game = Game.getInstance([player1, player2]);
   const [board, setBoard] = useState(game.board);
 
   // its not the same as the one in game instance
@@ -58,7 +62,7 @@ export const RenderGrid = (props: ParentComponentProps) => {
                   }}
                   onMouseEnter={() => {}}
                   onMouseLeave={() => {}}
-                ></div>
+                />
               );
             })}
           </div>

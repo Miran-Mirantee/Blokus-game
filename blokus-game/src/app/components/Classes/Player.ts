@@ -35,8 +35,8 @@ class Player {
     this.isPlayerTurn = false;
   }
 
-  activatePlayerTurn() {
-    this.isPlayerTurn = true;
+  togglePlayerTurn() {
+    this.isPlayerTurn = !this.isPlayerTurn;
   }
 
   placeBlokusPiece(selectPiece: string) {
