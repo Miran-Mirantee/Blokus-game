@@ -10,14 +10,11 @@ interface ParentComponentProps {
   pieceId: keyof typeof CreatePiece;
   pieceRotateCount: number;
   resetCountFunction: any;
+  game: Game;
 }
 
 export const RenderGrid = (props: ParentComponentProps) => {
-  // not an ideal practice, but this will do for now
-  const player1 = new Player("nu_ko", "red", 1);
-  const player2 = new Player("mirantee", "blue", 2);
-  const game = Game.getInstance([player1, player2]);
-  const [board, setBoard] = useState(game.board);
+  const [board, setBoard] = useState(props.game.board);
   const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
 
   // its not the same as the one in game instance
@@ -30,19 +27,18 @@ export const RenderGrid = (props: ParentComponentProps) => {
 
   useEffect(() => {
     console.log("game start!");
-    game.gameStart();
-  }, [game]);
+    props.game.gameStart();
+  }, [props.game]);
 
   // update board state when board in game updated
   useEffect(() => {
-    setBoard(game.board);
-    // game.playerPlaceBlokus(props.pieceId);
-  }, [game.board]);
+    setBoard(props.game.board);
+  }, [props.game.board]);
 
   useEffect(() => {
-    console.log("game.currentPlayer", game.currentPlayer);
-    setCurrentPlayer(game.currentPlayer);
-  }, [game.currentPlayer]);
+    console.log("game.currentPlayer", props.game.currentPlayer);
+    setCurrentPlayer(props.game.currentPlayer);
+  }, [props.game.currentPlayer]);
 
   return (
     <div className="flex flex-col bg-red-100 shadow-none shadow-rose-700 ">
@@ -61,16 +57,15 @@ export const RenderGrid = (props: ParentComponentProps) => {
                   } ${tile == 2 ? "bg-cyan-300" : ""}`}
                   onClick={() => {
                     if (currentPlayer) {
-                      game.setBoard(
+                      props.game.setBoard(
                         UpdateBoardValues(
                           rowIndex,
                           columnIndex,
                           currentPlayer.num,
-                          game.board,
+                          props.game,
                           props.pieceId,
                           props.pieceRotateCount,
-                          props.resetCountFunction,
-                          game
+                          props.resetCountFunction
                         )
                       );
                     }

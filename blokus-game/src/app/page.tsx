@@ -7,12 +7,19 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Button } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import CreatePiece from "./components/logicComponents/CreatePiece";
+import Player from "./components/Classes/Player";
+import Game from "./components/Classes/Game";
 
 export default function Home() {
   const [pieceId, setPieceId] =
     useState<keyof typeof CreatePiece>("fiveSquare3");
   const [rotateCount, setRotateCount] = useState<number>(0);
   const [position, setPosition] = useState({ x: 100, y: 100 });
+
+  // temporary players
+  const player1 = new Player("nu_ko", "red", 1);
+  const player2 = new Player("mirantee", "blue", 2);
+  const game = Game.getInstance([player1, player2]);
 
   const handleChange = (event: SelectChangeEvent) => {
     setPieceId(event.target.value as keyof typeof CreatePiece);
@@ -45,6 +52,7 @@ export default function Home() {
         pieceId={pieceId}
         pieceRotateCount={rotateCount}
         resetCountFunction={handleClickResetRotateCount}
+        game={game}
       />
       <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col mr-9">
         {/* this is for debugging */}

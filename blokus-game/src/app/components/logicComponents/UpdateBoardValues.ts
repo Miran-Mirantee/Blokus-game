@@ -9,13 +9,12 @@ const UpdateBoardValues = (
   x: number,
   y: number,
   value: number,
-  board: number[][],
+  game: Game,
   createSquareId: keyof typeof CreatePiece,
   rotateCount: number,
-  resetCallback: any,
-  game: Game
+  resetCallback: any
 ) => {
-  let updatedBoard = [...board]; // Assuming board is your original array
+  let updatedBoard = [...game.board]; // Assuming board is your original array
 
   // in case the piece id doesn't match any id at all (which is impossible of course)
   if (createSquareId in CreatePiece == false) {
@@ -44,6 +43,7 @@ const UpdateBoardValues = (
     return updatedBoard;
   }
 
+  // check if the blokus piece is placeable according to game rules
   if (!GameLogic.isPlaceable(updatedBoard, rotatedCoordinates)) {
     return updatedBoard;
   }
