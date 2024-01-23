@@ -6,16 +6,16 @@ class Game {
 
   players: Player[];
   currentPlayer: Player | null;
-  // players: any;
   board: number[][];
+  isFirstRound: boolean;
 
   private constructor(players: Player[]) {
     this.players = players;
     this.board = this.createBoard();
     this.currentPlayer = null;
+    this.isFirstRound = true;
   }
 
-  // public static getInstance(players: Player[]): Game {
   public static getInstance(players: Player[]): Game {
     if (!Game.instance) {
       Game.instance = new Game(players);
@@ -47,6 +47,7 @@ class Game {
     this.board = this.createBoard();
     this.players[0].isPlayerTurn = true;
     this.currentPlayer = this.players[0];
+    this.isFirstRound = true;
   }
 
   public playerPlaceBlokus(blokusPiece: string): void {

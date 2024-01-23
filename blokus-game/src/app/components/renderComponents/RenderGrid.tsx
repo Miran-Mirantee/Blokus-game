@@ -23,6 +23,7 @@ export const RenderGrid = (props: ParentComponentProps) => {
     let newBoard = [...board];
     // setBoard(game.board);
     newBoard[10][10] = 1;
+    newBoard[10][11] = 2;
   }, [board]);
 
   useEffect(() => {
