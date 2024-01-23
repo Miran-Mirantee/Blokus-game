@@ -10,6 +10,14 @@ import CreatePiece from "./components/logicComponents/CreatePiece";
 import Player from "./components/Classes/Player";
 import Game from "./components/Classes/Game";
 
+// TODO:
+//  - add player button
+//  - add flip blokus piece functionality
+//  - bind rotate button on keyboard
+//  - render remaining blokus piece on screen
+//  - score calculation
+//  - check endgame (if no more move is possible)
+
 export default function Home() {
   const [pieceId, setPieceId] =
     useState<keyof typeof CreatePiece>("fiveSquare3");
