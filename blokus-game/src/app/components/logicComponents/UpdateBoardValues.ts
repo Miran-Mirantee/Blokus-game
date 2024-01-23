@@ -45,7 +45,11 @@ const UpdateBoardValues = (
 
   // check if the blokus piece is placeable according to game rules
   if (
-    !GameLogic.isPlaceable(updatedBoard, rotatedCoordinates, game.isFirstRound)
+    !GameLogic.isPlaceable(
+      updatedBoard,
+      rotatedCoordinates,
+      game.roundCount == 1
+    )
   ) {
     return updatedBoard;
   }

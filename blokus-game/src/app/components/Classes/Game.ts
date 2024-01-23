@@ -7,13 +7,15 @@ class Game {
   players: Player[];
   currentPlayer: Player | null;
   board: number[][];
-  isFirstRound: boolean;
+  roundCount: number;
+  firstPlayer: Player | null;
 
   private constructor(players: Player[]) {
     this.players = players;
     this.board = this.createBoard();
     this.currentPlayer = null;
-    this.isFirstRound = true;
+    this.roundCount = 1;
+    this.firstPlayer = null;
   }
 
   public static getInstance(players: Player[]): Game {
@@ -29,14 +31,15 @@ class Game {
 
   public changeTurn(): void {
     const prevPlayer = this.players.shift();
-    console.log(this.players);
-    // console.log("prevPlayer", prevPlayer);
     prevPlayer?.togglePlayerTurn();
     this.players[0].togglePlayerTurn();
     if (prevPlayer) {
       this.players.push(prevPlayer);
     }
     this.currentPlayer = this.players[0];
+    if (this.firstPlayer == this.currentPlayer) {
+      this.roundCount++;
+    }
   }
 
   public createBoard(): number[][] {
@@ -46,8 +49,9 @@ class Game {
   public gameStart(): void {
     this.board = this.createBoard();
     this.players[0].isPlayerTurn = true;
-    this.currentPlayer = this.players[0];
-    this.isFirstRound = true;
+    this.firstPlayer = this.players[0];
+    this.currentPlayer = this.firstPlayer;
+    this.roundCount = 1;
   }
 
   public playerPlaceBlokus(blokusPiece: string): void {
@@ -59,7 +63,4 @@ class Game {
   }
 }
 
-// const player1 = new Player("nu_ko", "red", 1);
-// const player2 = new Player("mirantee", "blue", 2);
-// const gameInstance = Game.getInstance([player1, player2]);
 export default Game;

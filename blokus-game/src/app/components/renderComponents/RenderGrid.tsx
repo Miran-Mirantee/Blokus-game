@@ -19,12 +19,12 @@ export const RenderGrid = (props: ParentComponentProps) => {
 
   // its not the same as the one in game instance
   // for debuging only
-  useEffect(() => {
-    let newBoard = [...board];
-    // setBoard(game.board);
-    newBoard[10][10] = 1;
-    newBoard[10][11] = 2;
-  }, [board]);
+  // useEffect(() => {
+  //   let newBoard = [...board];
+  //   // setBoard(game.board);
+  //   newBoard[10][10] = 1;
+  //   newBoard[10][11] = 2;
+  // }, [board]);
 
   useEffect(() => {
     console.log("game start!");
