@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import RenderGrid from "./components/renderComponents/RenderGrid";
 import RenderPiece from "./components/renderComponents/RenderPiece";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -13,7 +13,6 @@ import Game from "./components/Classes/Game";
 // TODO:
 //  - add player button
 //  - add flip blokus piece functionality
-//  - bind rotate button on keyboard
 //  - render remaining blokus piece on screen
 //  - score calculation
 //  - check endgame (if no more move is possible)
@@ -29,6 +28,19 @@ export default function Home() {
   const player2 = new Player("mirantee", "blue", 2);
   const game = Game.getInstance([player1, player2]);
 
+  useEffect(() => {
+    const handleKeyPress = (event: any) => {
+      if (event.key === "r") {
+        setRotateCount(rotateCount + 1);
+      }
+    };
+
+    window.addEventListener("keypress", handleKeyPress);
+    return () => {
+      window.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [rotateCount]);
+
   const handleChange = (event: SelectChangeEvent) => {
     setPieceId(event.target.value as keyof typeof CreatePiece);
   };
@@ -36,6 +48,7 @@ export default function Home() {
   const handleClickAddRotateCount = () => {
     setRotateCount(rotateCount + 1);
   };
+
   const handleClickResetRotateCount = () => {
     setRotateCount(0);
   };
