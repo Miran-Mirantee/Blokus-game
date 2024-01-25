@@ -9,41 +9,53 @@ interface ParentComponentProps {
   pieceId: keyof typeof CreatePiece;
   pieceRotateCount: number;
   position: any;
+  size?: number;
 }
 
-const RenderPiece = (prop: ParentComponentProps) => {
+const RenderPiece = ({
+  pieceId,
+  pieceRotateCount,
+  position,
+  size = 40, // Default value for size
+}: ParentComponentProps) => {
   // in case the piece id doesn't match any id at all (which is impossible of course)
-  if (prop.pieceId in CreatePiece == false) {
+  if (pieceId in CreatePiece == false) {
     return <div>ERROR</div>;
   }
 
   // Retrieve the appropriate CreateSquare function based on the id
-  const createSquareFunction = CreatePiece[
-    prop.pieceId
-  ] as CreateSquareCallback;
+  const createSquareFunction = CreatePiece[pieceId] as CreateSquareCallback;
 
   //   console.log("im moving");
   const coordinates: CoordinatesArray = createSquareFunction(0, 0, 1);
   const rotatedCoordinates: CoordinatesArray = RotatePiece(
     coordinates,
-    prop.pieceRotateCount
+    pieceRotateCount
   );
+  const squareCount = rotatedCoordinates.length;
 
   return (
     <div
-      className="absolute pointer-events-none"
+      className="absolute pointer-events-none "
       style={{
-        top: `${prop.position.y - 20}px`,
-        left: `${prop.position.x - 20}px`,
+        // top: `calc(50% - ${size / 2}px)`,
+        // left: `calc(50% - ${size / 2}px)`,
+        top: `${position.y - size / 2}px`,
+        left: `${position.x - size / 2}px`,
       }}
     >
       {rotatedCoordinates.map((coordinate, index) => (
         <div
           key={index}
-          className={`absolute h-10 w-10 bg-violet-400 opacity-50`}
+          className={`absolute bg-violet-400 opacity-50 `}
           style={{
-            top: `${coordinate[1] * 40}px`,
-            left: `${coordinate[0] * 40}px`,
+            backgroundColor: `${
+              coordinate[0] == 0 && coordinate[1] == 0 ? "red" : ""
+            }`,
+            height: `${size}px`,
+            width: `${size}px`,
+            top: `${coordinate[1] * size}px`,
+            left: `${coordinate[0] * size}px`,
           }}
         ></div>
       ))}

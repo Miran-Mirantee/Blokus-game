@@ -28,9 +28,11 @@ export default function Home() {
   const player2 = new Player("mirantee", "blue", 2);
   const game = Game.getInstance([player1, player2]);
 
+  const pieceSize = 40;
+
   useEffect(() => {
     const handleKeyPress = (event: any) => {
-      if (event.key === "r") {
+      if (event.key === "r" || event.key === "R") {
         setRotateCount(rotateCount + 1);
       }
     };
@@ -62,20 +64,57 @@ export default function Home() {
       className="flex min-h-screen justify-center items-center gap-9 relative overflow-hidden"
       onMouseMove={handleMouseMove}
     >
-      <RenderPiece
+      {/* <RenderPiece
         pieceId={pieceId}
         pieceRotateCount={rotateCount}
         position={position}
-      />
+        size={40} // same size as one tile
+      /> */}
 
-      <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col ml-9"></div>
+      <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col ">
+        <div className="border-green-500 bg-green-200 border-solid border m-4 flex gap-5 flex-wrap">
+          {/* {game.players[0].pieces.map((piece)=> {
+
+          })} */}
+          {Object.keys(game.players[0].pieces).map((piece) => {
+            return (
+              <div
+                className="border border-solid border-yellow-400 flex justify-center items-center"
+                style={{
+                  height: `${
+                    pieceSize * game.players[0].pieces[piece].height
+                  }px`,
+                  width: `${pieceSize * game.players[0].pieces[piece].width}px`,
+                }}
+                key={piece}
+              >
+                <div className="relative border border-solid border-black">
+                  <RenderPiece
+                    pieceId={piece as keyof typeof CreatePiece}
+                    pieceRotateCount={0} // for fun
+                    position={{
+                      x:
+                        (game.players[0].pieces[piece].offset.x * pieceSize) /
+                        2,
+                      y:
+                        (game.players[0].pieces[piece].offset.y * pieceSize) /
+                        2,
+                    }}
+                    size={pieceSize}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
       <RenderGrid
         pieceId={pieceId}
         pieceRotateCount={rotateCount}
         resetCountFunction={handleClickResetRotateCount}
         game={game}
       />
-      <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col mr-9">
+      <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col ">
         {/* this is for debugging */}
         <Select
           labelId="demo-simple-select-label"
