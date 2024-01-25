@@ -28,7 +28,7 @@ export default function Home() {
   const player2 = new Player("mirantee", "blue", 2);
   const game = Game.getInstance([player1, player2]);
 
-  const pieceSize = 40;
+  const pieceSize = 25;
 
   useEffect(() => {
     const handleKeyPress = (event: any) => {
@@ -64,15 +64,16 @@ export default function Home() {
       className="flex min-h-screen justify-center items-center gap-9 relative overflow-hidden"
       onMouseMove={handleMouseMove}
     >
-      {/* <RenderPiece
+      <RenderPiece
         pieceId={pieceId}
         pieceRotateCount={rotateCount}
         position={position}
         size={40} // same size as one tile
-      /> */}
+      />
 
       <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col ">
-        <div className="border-green-500 bg-green-200 border-solid border m-4 flex gap-5 flex-wrap">
+        {/* render blokus pieces to select */}
+        <div className="border-green-500 bg-green-200 border-solid border m-4 flex gap-2 flex-wrap p-4">
           {/* {game.players[0].pieces.map((piece)=> {
 
           })} */}
@@ -87,8 +88,11 @@ export default function Home() {
                   width: `${pieceSize * game.players[0].pieces[piece].width}px`,
                 }}
                 key={piece}
+                onClick={() => {
+                  setPieceId(piece as keyof typeof CreatePiece);
+                }}
               >
-                <div className="relative border border-solid border-black">
+                <div className="relative">
                   <RenderPiece
                     pieceId={piece as keyof typeof CreatePiece}
                     pieceRotateCount={0} // for fun
