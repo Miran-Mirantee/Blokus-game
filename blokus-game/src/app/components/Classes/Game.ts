@@ -9,6 +9,7 @@ class Game {
   board: number[][];
   roundCount: number;
   firstPlayer: Player | null;
+  playerOrder: String[];
 
   private constructor(players: Player[]) {
     this.players = players;
@@ -16,6 +17,7 @@ class Game {
     this.currentPlayer = null;
     this.roundCount = 1;
     this.firstPlayer = null;
+    this.playerOrder = [];
   }
 
   public static getInstance(players: Player[]): Game {
@@ -30,13 +32,24 @@ class Game {
   }
 
   public changeTurn(): void {
-    const prevPlayer = this.players.shift();
+    const prevPlayerName = this.playerOrder.shift();
+    const prevPlayer = this.players.find(
+      (player) => player.name === prevPlayerName
+    );
+    const currentPlayerName = this.playerOrder[0];
+    const currentPlayer = this.players.find(
+      (player) => player.name === currentPlayerName
+    );
     prevPlayer?.togglePlayerTurn();
-    this.players[0].togglePlayerTurn();
-    if (prevPlayer) {
-      this.players.push(prevPlayer);
+    currentPlayer?.togglePlayerTurn();
+    if (prevPlayerName) {
+      this.playerOrder.push(prevPlayerName);
     }
-    this.currentPlayer = this.players[0];
+    if (currentPlayer) {
+      this.currentPlayer = currentPlayer;
+    }
+
+    // end one round
     if (this.firstPlayer == this.currentPlayer) {
       this.roundCount++;
     }
@@ -52,10 +65,15 @@ class Game {
     this.firstPlayer = this.players[0];
     this.currentPlayer = this.firstPlayer;
     this.roundCount = 1;
+    this.playerOrder = [];
+    this.players.map((player) => {
+      this.playerOrder.push(player.name);
+    });
   }
 
   public playerPlaceBlokus(blokusPiece: string): void {
     // will have a problem in the future for sure
+    console.log(this.currentPlayer);
     if (this.currentPlayer) {
       this.currentPlayer.pieces[blokusPiece].isUsed = true;
     }
