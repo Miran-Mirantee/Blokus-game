@@ -1,6 +1,6 @@
 "use client";
 
-import { KeyboardEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import RenderGrid from "./components/renderComponents/RenderGrid";
 import RenderPiece from "./components/renderComponents/RenderPiece";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -22,13 +22,20 @@ export default function Home() {
     useState<keyof typeof CreatePiece>("fiveSquare3");
   const [rotateCount, setRotateCount] = useState<number>(0);
   const [position, setPosition] = useState({ x: 100, y: 100 });
+  const [placeable, setPlaceable] = useState(false);
 
   // temporary players
   const player1 = new Player("nu_ko", "red", 1);
   const player2 = new Player("mirantee", "blue", 2);
   const game = Game.getInstance([player1, player2]);
+  // const [game, setGame] = useState(Game.getInstance([player1, player2]))
 
   const pieceSize = 25;
+
+  useEffect(() => {
+    console.log("something is wrong");
+    setPlaceable(false);
+  }, [game.currentPlayer]);
 
   useEffect(() => {
     const handleKeyPress = (event: any) => {
@@ -59,26 +66,33 @@ export default function Home() {
     setPosition({ x: e.clientX, y: e.clientY });
   };
 
+  const handleDisablePlacement = () => {
+    setPlaceable(false);
+  };
+
   return (
     <div
       className="flex min-h-screen justify-center items-center gap-9 relative overflow-hidden"
       onMouseMove={handleMouseMove}
     >
-      <RenderPiece
-        pieceId={pieceId}
-        pieceRotateCount={rotateCount}
-        position={position}
-        size={40} // same size as one tile
-      />
+      {placeable ? (
+        <RenderPiece
+          pieceId={pieceId}
+          pieceRotateCount={rotateCount}
+          position={position}
+          size={40} // same size as one tile
+        />
+      ) : null}
 
       <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col ">
         {/* render blokus pieces to select */}
         <div className="border-green-500 bg-green-200 border-solid border m-4 flex gap-2 flex-wrap p-4">
-          {/* {game.players[0].pieces.map((piece)=> {
-
-          })} */}
           {Object.keys(game.players[0].pieces).map((piece) => {
-            return (
+            // get isUsed status from blokus piece
+            const isUsed = game.players[0].pieces[piece].isUsed;
+
+            // return only unused blokus piece
+            return isUsed ? null : (
               <div
                 className="border border-solid border-yellow-400 flex justify-center items-center"
                 style={{
@@ -90,6 +104,7 @@ export default function Home() {
                 key={piece}
                 onClick={() => {
                   setPieceId(piece as keyof typeof CreatePiece);
+                  setPlaceable(true);
                 }}
               >
                 <div className="relative">
@@ -112,12 +127,21 @@ export default function Home() {
           })}
         </div>
       </div>
-      <RenderGrid
-        pieceId={pieceId}
-        pieceRotateCount={rotateCount}
-        resetCountFunction={handleClickResetRotateCount}
-        game={game}
-      />
+
+      {/* prevent player from placing a blokus piece when not selecting */}
+      <div
+        style={{
+          pointerEvents: placeable ? "all" : "none",
+        }}
+      >
+        <RenderGrid
+          pieceId={pieceId}
+          pieceRotateCount={rotateCount}
+          resetCountFunction={handleClickResetRotateCount}
+          disablePlacementFunction={handleDisablePlacement}
+          game={game}
+        />
+      </div>
       <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col ">
         {/* this is for debugging */}
         <Select

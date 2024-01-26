@@ -10,6 +10,7 @@ interface ParentComponentProps {
   pieceId: keyof typeof CreatePiece;
   pieceRotateCount: number;
   resetCountFunction: any;
+  disablePlacementFunction: any;
   game: Game;
 }
 
@@ -37,7 +38,7 @@ export const RenderGrid = (props: ParentComponentProps) => {
   }, [props.game.board]);
 
   useEffect(() => {
-    console.log("game.currentPlayer", props.game.currentPlayer);
+    // console.log("game.currentPlayer", props.game.currentPlayer);
     setCurrentPlayer(props.game.currentPlayer);
   }, [props.game.currentPlayer]);
 
@@ -66,7 +67,8 @@ export const RenderGrid = (props: ParentComponentProps) => {
                           props.game,
                           props.pieceId,
                           props.pieceRotateCount,
-                          props.resetCountFunction
+                          props.resetCountFunction,
+                          props.disablePlacementFunction
                         )
                       );
                     }

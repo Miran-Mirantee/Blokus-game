@@ -12,7 +12,8 @@ const UpdateBoardValues = (
   game: Game,
   createSquareId: keyof typeof CreatePiece,
   rotateCount: number,
-  resetCallback: any
+  resetCallback: any,
+  disablePlacementCallback: any
 ) => {
   let updatedBoard = [...game.board]; // Assuming board is your original array
 
@@ -66,6 +67,7 @@ const UpdateBoardValues = (
 
   game.playerPlaceBlokus(createSquareId);
   resetCallback();
+  disablePlacementCallback();
   return updatedBoard;
 };
 

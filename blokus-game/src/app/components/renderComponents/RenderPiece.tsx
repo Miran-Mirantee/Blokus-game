@@ -32,7 +32,6 @@ const RenderPiece = ({
     coordinates,
     pieceRotateCount
   );
-  const squareCount = rotatedCoordinates.length;
 
   return (
     <div
