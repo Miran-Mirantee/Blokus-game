@@ -14,7 +14,7 @@ interface ParentComponentProps {
   game: Game;
 }
 
-export const RenderGrid = (props: ParentComponentProps) => {
+const RenderGrid = (props: ParentComponentProps) => {
   const [board, setBoard] = useState(props.game.board);
   const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
 
