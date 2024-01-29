@@ -9,7 +9,9 @@ import Player from "../Classes/Player";
 interface ParentComponentProps {
   pieceId: keyof typeof CreatePiece;
   pieceRotateCount: number;
+  pieceFlipCount: number;
   resetCountFunction: any;
+  resetFlipFunction: any;
   disablePlacementFunction: any;
   game: Game;
 }
@@ -67,7 +69,9 @@ const RenderGrid = (props: ParentComponentProps) => {
                           props.game,
                           props.pieceId,
                           props.pieceRotateCount,
+                          props.pieceFlipCount,
                           props.resetCountFunction,
+                          props.resetFlipFunction,
                           props.disablePlacementFunction
                         )
                       );

@@ -43,7 +43,8 @@ const RenderPiecePanel = ({
             <div className="relative">
               <RenderPiece
                 pieceId={piece as keyof typeof CreatePiece}
-                pieceRotateCount={0} // for fun
+                pieceRotateCount={0}
+                pieceFlipCount={0}
                 position={{
                   x: (player.pieces[piece].offset.x * pieceSize) / 2,
                   y: (player.pieces[piece].offset.y * pieceSize) / 2,

@@ -14,7 +14,6 @@ import Game from "./components/Classes/Game";
 // TODO:
 //  - add player button
 //  - add flip blokus piece functionality
-//  - render remaining blokus piece on screen
 //  - display player turn
 //  - score calculation
 //  - check endgame (if no more move is possible)
@@ -23,6 +22,7 @@ export default function Home() {
   const [pieceId, setPieceId] =
     useState<keyof typeof CreatePiece>("fiveSquare3");
   const [rotateCount, setRotateCount] = useState<number>(0);
+  const [flipCount, setFlipCount] = useState<number>(0);
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [placeable, setPlaceable] = useState(false);
 
@@ -30,19 +30,16 @@ export default function Home() {
   const player1 = new Player("nu_ko", "red", 1);
   const player2 = new Player("mirantee", "blue", 2);
   const game = Game.getInstance([player1, player2]);
-  // const [game, setGame] = useState(Game.getInstance([player1, player2]))
 
   const pieceSize = 25;
-
-  useEffect(() => {
-    console.log("something is wrong");
-    setPlaceable(false);
-  }, [game.currentPlayer]);
 
   useEffect(() => {
     const handleKeyPress = (event: any) => {
       if (event.key === "r" || event.key === "R") {
         setRotateCount(rotateCount + 1);
+      }
+      if (event.key === "t" || event.key === "T") {
+        setFlipCount(flipCount + 1);
       }
     };
 
@@ -50,7 +47,7 @@ export default function Home() {
     return () => {
       window.removeEventListener("keypress", handleKeyPress);
     };
-  }, [rotateCount]);
+  }, [rotateCount, flipCount]);
 
   const handleSelectPiece = (event: SelectChangeEvent) => {
     setPieceId(event.target.value as keyof typeof CreatePiece);
@@ -64,8 +61,16 @@ export default function Home() {
     setRotateCount(rotateCount + 1);
   };
 
-  const handleClickResetRotateCount = () => {
+  const handleClickAddFlipCount = () => {
+    setFlipCount(flipCount + 1);
+  };
+
+  const handleResetRotateCount = () => {
     setRotateCount(0);
+  };
+
+  const handleResetFlipCount = () => {
+    setFlipCount(0);
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -89,6 +94,7 @@ export default function Home() {
         <RenderPiece
           pieceId={pieceId}
           pieceRotateCount={rotateCount}
+          pieceFlipCount={flipCount}
           position={position}
           size={40} // same size as one tile
         />
@@ -128,7 +134,9 @@ export default function Home() {
         <RenderGrid
           pieceId={pieceId}
           pieceRotateCount={rotateCount}
-          resetCountFunction={handleClickResetRotateCount}
+          pieceFlipCount={flipCount}
+          resetCountFunction={handleResetRotateCount}
+          resetFlipFunction={handleResetFlipCount}
           disablePlacementFunction={handleDisablePlacement}
           game={game}
         />
@@ -182,6 +190,13 @@ export default function Home() {
             onClick={handleClickAddRotateCount}
           >
             Rotate: {rotateCount}
+          </Button>
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={handleClickAddFlipCount}
+          >
+            Flip: {flipCount}
           </Button>
         </div>
         {game.players[3] ? (

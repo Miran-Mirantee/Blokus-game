@@ -4,6 +4,7 @@ import CreatePiece from "./CreatePiece";
 import RotatePiece from "./RotatePiece";
 import GameLogic from "./GameLogic";
 import Game from "../Classes/Game";
+import FlipPiece from "./FlipPiece";
 
 const UpdateBoardValues = (
   x: number,
@@ -12,7 +13,9 @@ const UpdateBoardValues = (
   game: Game,
   createSquareId: keyof typeof CreatePiece,
   rotateCount: number,
-  resetCallback: any,
+  flipCount: number,
+  resetRotateCallback: any,
+  resetFlipCallback: any,
   disablePlacementCallback: any
 ) => {
   let updatedBoard = [...game.board]; // Assuming board is your original array
@@ -33,14 +36,18 @@ const UpdateBoardValues = (
     coordinates,
     rotateCount
   );
+  const flippedRotatedCoordinates: CoordinatesArray = FlipPiece(
+    rotatedCoordinates,
+    flipCount
+  );
 
   // check if the blokus piece is placable
-  if (!GameLogic.isOutOfBound(rotatedCoordinates)) {
+  if (!GameLogic.isOutOfBound(flippedRotatedCoordinates)) {
     return updatedBoard;
   }
 
   // check if the blokus piece is overlapping another piece
-  if (GameLogic.isOverlap(updatedBoard, rotatedCoordinates)) {
+  if (GameLogic.isOverlap(updatedBoard, flippedRotatedCoordinates)) {
     return updatedBoard;
   }
 
@@ -48,7 +55,7 @@ const UpdateBoardValues = (
   if (
     !GameLogic.isPlaceable(
       updatedBoard,
-      rotatedCoordinates,
+      flippedRotatedCoordinates,
       game.roundCount == 1
     )
   ) {
@@ -56,17 +63,20 @@ const UpdateBoardValues = (
   }
 
   // place a blokus piece on board
-  rotatedCoordinates.forEach(([x, y, newValue]: [number, number, number]) => {
-    updatedBoard = updatedBoard.map((row, cIndex) => {
-      if (cIndex === y) {
-        return row.map((value, rIndex) => (rIndex === x ? newValue : value));
-      }
-      return row;
-    });
-  });
+  flippedRotatedCoordinates.forEach(
+    ([x, y, newValue]: [number, number, number]) => {
+      updatedBoard = updatedBoard.map((row, cIndex) => {
+        if (cIndex === y) {
+          return row.map((value, rIndex) => (rIndex === x ? newValue : value));
+        }
+        return row;
+      });
+    }
+  );
 
   game.playerPlaceBlokus(createSquareId);
-  resetCallback();
+  resetRotateCallback();
+  resetFlipCallback();
   disablePlacementCallback();
   return updatedBoard;
 };

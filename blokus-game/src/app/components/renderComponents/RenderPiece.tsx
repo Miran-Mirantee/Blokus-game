@@ -2,12 +2,14 @@
 
 import CreatePiece from "../logicComponents/CreatePiece";
 import RotatePiece from "../logicComponents/RotatePiece";
+import FlipPiece from "../logicComponents/FlipPiece";
 import CoordinatesArray from "@/app/types/CoordinatesArray";
 import CreateSquareCallback from "@/app/types/CreateSquareCallback";
 
 interface ParentComponentProps {
   pieceId: keyof typeof CreatePiece;
   pieceRotateCount: number;
+  pieceFlipCount: number;
   position: any;
   size?: number;
 }
@@ -15,6 +17,7 @@ interface ParentComponentProps {
 const RenderPiece = ({
   pieceId,
   pieceRotateCount,
+  pieceFlipCount,
   position,
   size = 40, // Default value for size
 }: ParentComponentProps) => {
@@ -26,11 +29,14 @@ const RenderPiece = ({
   // Retrieve the appropriate CreateSquare function based on the id
   const createSquareFunction = CreatePiece[pieceId] as CreateSquareCallback;
 
-  //   console.log("im moving");
   const coordinates: CoordinatesArray = createSquareFunction(0, 0, 1);
   const rotatedCoordinates: CoordinatesArray = RotatePiece(
     coordinates,
     pieceRotateCount
+  );
+  const flippedRotatedCoordinates: CoordinatesArray = FlipPiece(
+    rotatedCoordinates,
+    pieceFlipCount
   );
 
   return (
@@ -43,7 +49,7 @@ const RenderPiece = ({
         left: `${position.x - size / 2}px`,
       }}
     >
-      {rotatedCoordinates.map((coordinate, index) => (
+      {flippedRotatedCoordinates.map((coordinate, index) => (
         <div
           key={index}
           className={`absolute bg-violet-400 opacity-50 `}
