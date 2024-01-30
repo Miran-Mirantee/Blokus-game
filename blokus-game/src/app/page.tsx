@@ -13,7 +13,6 @@ import Game from "./components/Classes/Game";
 
 // TODO:
 //  - add player button
-//  - add flip blokus piece functionality
 //  - display player turn
 //  - score calculation
 //  - check endgame (if no more move is possible)
@@ -25,13 +24,27 @@ export default function Home() {
   const [flipCount, setFlipCount] = useState<number>(0);
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [placeable, setPlaceable] = useState(false);
-
-  // temporary players
-  const player1 = new Player("nu_ko", "red", 1);
-  const player2 = new Player("mirantee", "blue", 2);
-  const game = Game.getInstance([player1, player2]);
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [game, setGame] = useState<Game>();
 
   const pieceSize = 25;
+
+  // useEffect(() => {
+  //   // temporary players
+  //   const player1 = new Player("nu_ko", "red", 1);
+  //   const player2 = new Player("mirantee", "blue", 2);
+  //   setPlayers([player1, player2]);
+  //   console.log("wassap daring");
+  // }, []);
+
+  useEffect(() => {
+    if (players) {
+      const newGame = Game.getInstance();
+      newGame.setPlayers(players);
+      setGame(newGame);
+      console.log(players);
+    }
+  }, [players]);
 
   useEffect(() => {
     const handleKeyPress = (event: any) => {
@@ -100,116 +113,148 @@ export default function Home() {
         />
       ) : null}
 
-      <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col justify-between">
-        {/* render blokus pieces to select */}
-        {game.players[0] ? (
-          <RenderPiecePanel
-            pieceSize={pieceSize}
-            player={game.players[0]}
-            changePieceFunction={handleChangePiece}
-            enablePlacementFunction={handleEnablePlacement}
-          />
-        ) : (
-          ""
-        )}
+      {/* render game is it exists */}
+      {game ? (
+        <>
+          <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col justify-between">
+            {/* render blokus pieces to select */}
+            {game.players[0] ? (
+              <RenderPiecePanel
+                pieceSize={pieceSize}
+                player={game.players[0]}
+                changePieceFunction={handleChangePiece}
+                enablePlacementFunction={handleEnablePlacement}
+              />
+            ) : (
+              ""
+            )}
 
-        {game.players[1] ? (
-          <RenderPiecePanel
-            pieceSize={pieceSize}
-            player={game.players[1]}
-            changePieceFunction={handleChangePiece}
-            enablePlacementFunction={handleEnablePlacement}
-          />
-        ) : (
-          ""
-        )}
-      </div>
-
-      {/* prevent player from placing a blokus piece when not selecting */}
-      <div
-        style={{
-          pointerEvents: placeable ? "all" : "none",
-        }}
-      >
-        <RenderGrid
-          pieceId={pieceId}
-          pieceRotateCount={rotateCount}
-          pieceFlipCount={flipCount}
-          resetCountFunction={handleResetRotateCount}
-          resetFlipFunction={handleResetFlipCount}
-          disablePlacementFunction={handleDisablePlacement}
-          game={game}
-        />
-      </div>
-      <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col justify-between">
-        {game.players[2] ? (
-          <RenderPiecePanel
-            pieceSize={pieceSize}
-            player={game.players[2]}
-            changePieceFunction={handleChangePiece}
-            enablePlacementFunction={handleEnablePlacement}
-          />
-        ) : (
-          ""
-        )}
-        {/* this is for debugging */}
-        <div className="">
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={pieceId}
-            label="pieceId"
-            onChange={handleSelectPiece}
+            {game.players[1] ? (
+              <RenderPiecePanel
+                pieceSize={pieceSize}
+                player={game.players[1]}
+                changePieceFunction={handleChangePiece}
+                enablePlacementFunction={handleEnablePlacement}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+          {/* prevent player from placing a blokus piece when not selecting */}
+          <div
+            style={{
+              pointerEvents: placeable ? "all" : "none",
+            }}
           >
-            <MenuItem value={"oneSquare"}>oneSquare</MenuItem>
-            <MenuItem value={"twoSquare"}>twoSquare</MenuItem>
-            <MenuItem value={"threeSquare"}>threeSquare</MenuItem>
-            <MenuItem value={"threeSquare2"}>threeSquare2</MenuItem>
-            <MenuItem value={"fourSquare"}>fourSquare</MenuItem>
-            <MenuItem value={"fourSquare2"}>fourSquare2</MenuItem>
-            <MenuItem value={"fourSquare3"}>fourSquare3</MenuItem>
-            <MenuItem value={"fourSquare4"}>fourSquare4</MenuItem>
-            <MenuItem value={"fourSquare5"}>fourSquare5</MenuItem>
-            <MenuItem value={"fiveSquare"}>fiveSquare</MenuItem>
-            <MenuItem value={"fiveSquare2"}>fiveSquare2</MenuItem>
-            <MenuItem value={"fiveSquare3"}>fiveSquare3</MenuItem>
-            <MenuItem value={"fiveSquare4"}>fiveSquare4</MenuItem>
-            <MenuItem value={"fiveSquare5"}>fiveSquare5</MenuItem>
-            <MenuItem value={"fiveSquare6"}>fiveSquare6</MenuItem>
-            <MenuItem value={"fiveSquare7"}>fiveSquare7</MenuItem>
-            <MenuItem value={"fiveSquare8"}>fiveSquare8</MenuItem>
-            <MenuItem value={"fiveSquare9"}>fiveSquare9</MenuItem>
-            <MenuItem value={"fiveSquare10"}>fiveSquare10</MenuItem>
-            <MenuItem value={"fiveSquare11"}>fiveSquare11</MenuItem>
-            <MenuItem value={"fiveSquare12"}>fiveSquare12</MenuItem>
-          </Select>
-          <div>Current piece id: {pieceId}</div>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={handleClickAddRotateCount}
-          >
-            Rotate: {rotateCount}
-          </Button>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={handleClickAddFlipCount}
-          >
-            Flip: {flipCount}
-          </Button>
-        </div>
-        {game.players[3] ? (
-          <RenderPiecePanel
-            pieceSize={pieceSize}
-            player={game.players[3]}
-            changePieceFunction={handleChangePiece}
-            enablePlacementFunction={handleEnablePlacement}
-          />
-        ) : (
-          ""
-        )}
-      </div>
+            <RenderGrid
+              pieceId={pieceId}
+              pieceRotateCount={rotateCount}
+              pieceFlipCount={flipCount}
+              resetCountFunction={handleResetRotateCount}
+              resetFlipFunction={handleResetFlipCount}
+              disablePlacementFunction={handleDisablePlacement}
+              game={game}
+            />
+          </div>
+          <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col justify-between">
+            {game.players[2] ? (
+              <RenderPiecePanel
+                pieceSize={pieceSize}
+                player={game.players[2]}
+                changePieceFunction={handleChangePiece}
+                enablePlacementFunction={handleEnablePlacement}
+              />
+            ) : (
+              ""
+            )}
+            {/* this is for debugging */}
+            <div className="">
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={pieceId}
+                label="pieceId"
+                onChange={handleSelectPiece}
+              >
+                <MenuItem value={"oneSquare"}>oneSquare</MenuItem>
+                <MenuItem value={"twoSquare"}>twoSquare</MenuItem>
+                <MenuItem value={"threeSquare"}>threeSquare</MenuItem>
+                <MenuItem value={"threeSquare2"}>threeSquare2</MenuItem>
+                <MenuItem value={"fourSquare"}>fourSquare</MenuItem>
+                <MenuItem value={"fourSquare2"}>fourSquare2</MenuItem>
+                <MenuItem value={"fourSquare3"}>fourSquare3</MenuItem>
+                <MenuItem value={"fourSquare4"}>fourSquare4</MenuItem>
+                <MenuItem value={"fourSquare5"}>fourSquare5</MenuItem>
+                <MenuItem value={"fiveSquare"}>fiveSquare</MenuItem>
+                <MenuItem value={"fiveSquare2"}>fiveSquare2</MenuItem>
+                <MenuItem value={"fiveSquare3"}>fiveSquare3</MenuItem>
+                <MenuItem value={"fiveSquare4"}>fiveSquare4</MenuItem>
+                <MenuItem value={"fiveSquare5"}>fiveSquare5</MenuItem>
+                <MenuItem value={"fiveSquare6"}>fiveSquare6</MenuItem>
+                <MenuItem value={"fiveSquare7"}>fiveSquare7</MenuItem>
+                <MenuItem value={"fiveSquare8"}>fiveSquare8</MenuItem>
+                <MenuItem value={"fiveSquare9"}>fiveSquare9</MenuItem>
+                <MenuItem value={"fiveSquare10"}>fiveSquare10</MenuItem>
+                <MenuItem value={"fiveSquare11"}>fiveSquare11</MenuItem>
+                <MenuItem value={"fiveSquare12"}>fiveSquare12</MenuItem>
+              </Select>
+              <div>Current piece id: {pieceId}</div>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={handleClickAddRotateCount}
+              >
+                Rotate: {rotateCount}
+              </Button>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={handleClickAddFlipCount}
+              >
+                Flip: {flipCount}
+              </Button>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={() => {
+                  console.log("adding new bois");
+                  const newPlayer = new Player(
+                    "name",
+                    "red",
+                    game.players.length + 1
+                  );
+                  setPlayers([...players, newPlayer]);
+                }}
+              >
+                Add new player
+              </Button>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={() => {
+                  // check if players exist in the game
+                  if (game.players.length) {
+                    console.log("start the DAMN GAME");
+                    game.gameStart();
+                  }
+                }}
+              >
+                Start game
+              </Button>
+            </div>
+            {game.players[3] ? (
+              <RenderPiecePanel
+                pieceSize={pieceSize}
+                player={game.players[3]}
+                changePieceFunction={handleChangePiece}
+                enablePlacementFunction={handleEnablePlacement}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }

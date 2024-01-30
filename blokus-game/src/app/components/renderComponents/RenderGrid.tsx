@@ -29,10 +29,10 @@ const RenderGrid = (props: ParentComponentProps) => {
   //   newBoard[10][11] = 2;
   // }, [board]);
 
-  useEffect(() => {
-    console.log("game start!");
-    props.game.gameStart();
-  }, [props.game]);
+  // useEffect(() => {
+  //   console.log("game start!");
+  //   props.game.gameStart();
+  // }, [props.game]);
 
   // update board state when board in game updated
   useEffect(() => {
