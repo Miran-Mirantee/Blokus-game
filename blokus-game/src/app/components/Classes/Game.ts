@@ -36,6 +36,7 @@ class Game {
   }
 
   public changeTurn(): void {
+    console.log("changing turn");
     const prevPlayerName = this.playerOrder.shift();
     const prevPlayer = this.players.find(
       (player) => player.name === prevPlayerName
@@ -77,7 +78,6 @@ class Game {
 
   public playerPlaceBlokus(blokusPiece: string): void {
     // will have a problem in the future for sure
-    console.log(this.currentPlayer);
     if (this.currentPlayer) {
       this.currentPlayer.pieces[blokusPiece].isUsed = true;
     }

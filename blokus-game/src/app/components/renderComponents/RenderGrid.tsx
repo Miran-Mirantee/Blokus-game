@@ -56,9 +56,11 @@ const RenderGrid = (props: ParentComponentProps) => {
               return (
                 <div
                   key={rowIndex}
-                  className={`border-solid border-red-400 first:border-l border-r h-10 w-10 hover:bg-yellow-300 ${
-                    tile == 1 ? "bg-red-300" : ""
-                  } ${tile == 2 ? "bg-cyan-300" : ""}`}
+                  className={`border-solid border-red-400 first:border-l border-r h-10 w-10 hover:bg-yellow-300 
+                  ${tile == 1 ? "bg-red-300" : ""} 
+                  ${tile == 2 ? "bg-cyan-300" : ""} 
+                  ${tile == 3 ? "bg-green-300" : ""} 
+                  ${tile == 4 ? "bg-yellow-300" : ""}`}
                   onClick={() => {
                     if (currentPlayer) {
                       props.game.setBoard(

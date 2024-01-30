@@ -12,7 +12,6 @@ import Player from "./components/Classes/Player";
 import Game from "./components/Classes/Game";
 
 // TODO:
-//  - add player button
 //  - display player turn
 //  - score calculation
 //  - check endgame (if no more move is possible)
@@ -219,7 +218,7 @@ export default function Home() {
                 onClick={() => {
                   console.log("adding new bois");
                   const newPlayer = new Player(
-                    "name",
+                    `name${game.players.length + 1}`,
                     "red",
                     game.players.length + 1
                   );
@@ -232,8 +231,8 @@ export default function Home() {
                 color="secondary"
                 variant="contained"
                 onClick={() => {
-                  // check if players exist in the game
-                  if (game.players.length) {
+                  // check if players exist in the game more than 1
+                  if (game.players.length > 1) {
                     console.log("start the DAMN GAME");
                     game.gameStart();
                   }
