@@ -11,8 +11,8 @@ class Game {
   firstPlayer: Player | null;
   playerOrder: String[];
 
-  private constructor(players: Player[]) {
-    this.players = players;
+  private constructor() {
+    this.players = [];
     this.board = this.createBoard();
     this.currentPlayer = null;
     this.roundCount = 1;
@@ -20,15 +20,19 @@ class Game {
     this.playerOrder = [];
   }
 
-  public static getInstance(players: Player[]): Game {
+  public static getInstance(): Game {
     if (!Game.instance) {
-      Game.instance = new Game(players);
+      Game.instance = new Game();
     }
     return Game.instance;
   }
 
   public setBoard(board: number[][]): void {
     this.board = board;
+  }
+
+  public setPlayers(players: Player[]): void {
+    this.players = players;
   }
 
   public changeTurn(): void {
