@@ -66,6 +66,9 @@ class Game {
 
   public gameStart(): void {
     this.board = this.createBoard();
+    this.players.map((player: Player) => {
+      player.isPlayerTurn = false;
+    });
     this.players[0].isPlayerTurn = true;
     this.firstPlayer = this.players[0];
     this.currentPlayer = this.firstPlayer;
