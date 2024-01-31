@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import RenderGrid from "./components/renderComponents/RenderGrid";
 import RenderPiece from "./components/renderComponents/RenderPiece";
 import RenderPiecePanel from "./components/renderComponents/RenderPiecePanel";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Button } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
 import CreatePiece from "./components/logicComponents/CreatePiece";
 import Player from "./components/Classes/Player";
 import Game from "./components/Classes/Game";
@@ -14,6 +12,7 @@ import Game from "./components/Classes/Game";
 // TODO:
 //  - score calculation
 //  - add "remove player" (optional)
+//  - restart game bug
 //  - check endgame (if no more move is possible)
 
 export default function Home() {
@@ -61,8 +60,19 @@ export default function Home() {
     };
   }, [rotateCount, flipCount]);
 
-  const handleSelectPiece = (event: SelectChangeEvent) => {
-    setPieceId(event.target.value as keyof typeof CreatePiece);
+  const getPlayerName = (num: number) => {
+    switch (num) {
+      case 1:
+        return "Red";
+      case 2:
+        return "Cyan";
+      case 3:
+        return "Green";
+      case 4:
+        return "Yellow";
+      default:
+        return "Who??";
+    }
   };
 
   const handleChangePiece = (piece: keyof typeof CreatePiece) => {
@@ -115,7 +125,7 @@ export default function Home() {
       {/* render game is it exists */}
       {game ? (
         <>
-          <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col justify-between">
+          <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col justify-between relative">
             {/* render blokus pieces to select */}
             {game.players[0] ? (
               <RenderPiecePanel
@@ -125,9 +135,16 @@ export default function Home() {
                 enablePlacementFunction={handleEnablePlacement}
               />
             ) : (
-              ""
+              <div />
             )}
-
+            <div
+              className="absolute top-1/2 left-1/2 text-5xl w-4/5 text-center"
+              style={{
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              {game.currentPlayer?.name} turn
+            </div>
             {game.players[1] ? (
               <RenderPiecePanel
                 pieceSize={pieceSize}
@@ -136,7 +153,7 @@ export default function Home() {
                 enablePlacementFunction={handleEnablePlacement}
               />
             ) : (
-              ""
+              <div />
             )}
           </div>
           {/* prevent player from placing a blokus piece when not selecting */}
@@ -155,7 +172,7 @@ export default function Home() {
               game={game}
             />
           </div>
-          <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col justify-between">
+          <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col justify-between relative">
             {game.players[3] ? (
               <RenderPiecePanel
                 pieceSize={pieceSize}
@@ -164,53 +181,27 @@ export default function Home() {
                 enablePlacementFunction={handleEnablePlacement}
               />
             ) : (
-              ""
+              <div />
             )}
-            {/* this is for debugging */}
-            <div className="">
-              {/* <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={pieceId}
-                label="pieceId"
-                onChange={handleSelectPiece}
-              >
-                <MenuItem value={"oneSquare"}>oneSquare</MenuItem>
-                <MenuItem value={"twoSquare"}>twoSquare</MenuItem>
-                <MenuItem value={"threeSquare"}>threeSquare</MenuItem>
-                <MenuItem value={"threeSquare2"}>threeSquare2</MenuItem>
-                <MenuItem value={"fourSquare"}>fourSquare</MenuItem>
-                <MenuItem value={"fourSquare2"}>fourSquare2</MenuItem>
-                <MenuItem value={"fourSquare3"}>fourSquare3</MenuItem>
-                <MenuItem value={"fourSquare4"}>fourSquare4</MenuItem>
-                <MenuItem value={"fourSquare5"}>fourSquare5</MenuItem>
-                <MenuItem value={"fiveSquare"}>fiveSquare</MenuItem>
-                <MenuItem value={"fiveSquare2"}>fiveSquare2</MenuItem>
-                <MenuItem value={"fiveSquare3"}>fiveSquare3</MenuItem>
-                <MenuItem value={"fiveSquare4"}>fiveSquare4</MenuItem>
-                <MenuItem value={"fiveSquare5"}>fiveSquare5</MenuItem>
-                <MenuItem value={"fiveSquare6"}>fiveSquare6</MenuItem>
-                <MenuItem value={"fiveSquare7"}>fiveSquare7</MenuItem>
-                <MenuItem value={"fiveSquare8"}>fiveSquare8</MenuItem>
-                <MenuItem value={"fiveSquare9"}>fiveSquare9</MenuItem>
-                <MenuItem value={"fiveSquare10"}>fiveSquare10</MenuItem>
-                <MenuItem value={"fiveSquare11"}>fiveSquare11</MenuItem>
-                <MenuItem value={"fiveSquare12"}>fiveSquare12</MenuItem>
-              </Select> */}
-              <div>Current piece id: {pieceId}</div>
+            <div
+              className="absolute top-1/2 left-1/2 text-3xl w-5/6 flex gap-4"
+              style={{
+                transform: "translate(-50%, -50%)",
+              }}
+            >
               <Button
                 color="secondary"
                 variant="contained"
                 onClick={handleClickAddRotateCount}
               >
-                Rotate: {rotateCount}
+                Rotate
               </Button>
               <Button
                 color="secondary"
                 variant="contained"
                 onClick={handleClickAddFlipCount}
               >
-                Flip: {flipCount}
+                Flip
               </Button>
               <Button
                 color="secondary"
@@ -219,8 +210,7 @@ export default function Home() {
                   if (players.length < 4) {
                     console.log("adding new bois");
                     const newPlayer = new Player(
-                      `name${game.players.length + 1}`,
-                      "red",
+                      getPlayerName(game.players.length + 1),
                       game.players.length + 1
                     );
                     setPlayers([...players, newPlayer]);
@@ -251,11 +241,43 @@ export default function Home() {
                 enablePlacementFunction={handleEnablePlacement}
               />
             ) : (
-              ""
+              <div />
             )}
           </div>
         </>
       ) : null}
     </div>
   );
+}
+
+{
+  /* <Select
+    labelId="demo-simple-select-label"
+    id="demo-simple-select"
+    value={pieceId}
+    label="pieceId"
+    onChange={handleSelectPiece}
+  >
+    <MenuItem value={"oneSquare"}>oneSquare</MenuItem>
+    <MenuItem value={"twoSquare"}>twoSquare</MenuItem>
+    <MenuItem value={"threeSquare"}>threeSquare</MenuItem>
+    <MenuItem value={"threeSquare2"}>threeSquare2</MenuItem>
+    <MenuItem value={"fourSquare"}>fourSquare</MenuItem>
+    <MenuItem value={"fourSquare2"}>fourSquare2</MenuItem>
+    <MenuItem value={"fourSquare3"}>fourSquare3</MenuItem>
+    <MenuItem value={"fourSquare4"}>fourSquare4</MenuItem>
+    <MenuItem value={"fourSquare5"}>fourSquare5</MenuItem>
+    <MenuItem value={"fiveSquare"}>fiveSquare</MenuItem>
+    <MenuItem value={"fiveSquare2"}>fiveSquare2</MenuItem>
+    <MenuItem value={"fiveSquare3"}>fiveSquare3</MenuItem>
+    <MenuItem value={"fiveSquare4"}>fiveSquare4</MenuItem>
+    <MenuItem value={"fiveSquare5"}>fiveSquare5</MenuItem>
+    <MenuItem value={"fiveSquare6"}>fiveSquare6</MenuItem>
+    <MenuItem value={"fiveSquare7"}>fiveSquare7</MenuItem>
+    <MenuItem value={"fiveSquare8"}>fiveSquare8</MenuItem>
+    <MenuItem value={"fiveSquare9"}>fiveSquare9</MenuItem>
+    <MenuItem value={"fiveSquare10"}>fiveSquare10</MenuItem>
+    <MenuItem value={"fiveSquare11"}>fiveSquare11</MenuItem>
+    <MenuItem value={"fiveSquare12"}>fiveSquare12</MenuItem>
+  </Select> */
 }
