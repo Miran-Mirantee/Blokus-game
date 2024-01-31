@@ -41,7 +41,7 @@ const RenderPiece = ({
 
   return (
     <div
-      className="absolute pointer-events-none "
+      className="absolute pointer-events-none z-10"
       style={{
         // top: `calc(50% - ${size / 2}px)`,
         // left: `calc(50% - ${size / 2}px)`,
