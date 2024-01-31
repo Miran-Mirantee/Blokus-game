@@ -11,6 +11,19 @@ interface ParentComponentProps {
   enablePlacementFunction: any;
 }
 
+const getPlayerColor = (player: Player) => {
+  switch (player.num) {
+    case 1:
+      return "rgb(252 165 165)";
+    case 2:
+      return "rgb(103 232 249)";
+    case 3:
+      return "rgb(134 239 172)";
+    case 4:
+      return "rgb(253 224 71)";
+  }
+};
+
 const RenderPiecePanel = ({
   pieceSize,
   player,
@@ -19,8 +32,14 @@ const RenderPiecePanel = ({
 }: ParentComponentProps) => {
   return (
     <div
-      className="border-green-500 bg-green-200 border-solid border m-4 flex gap-2 flex-wrap p-4"
-      style={{ pointerEvents: player.isPlayerTurn ? "all" : "none" }}
+      className="bg-gray-100 border-solid border-8 m-4 flex gap-2 flex-wrap p-4"
+      style={{
+        pointerEvents: player.isPlayerTurn ? "all" : "none",
+        borderColor: getPlayerColor(player),
+        backgroundColor: player.isPlayerTurn
+          ? getPlayerColor(player)
+          : "rgb(243 244 246)",
+      }}
     >
       {Object.keys(player.pieces).map((piece) => {
         // get isUsed status from blokus piece
@@ -29,7 +48,7 @@ const RenderPiecePanel = ({
         // return only unused blokus piece
         return isUsed ? null : (
           <div
-            className="border border-solid border-yellow-400 flex justify-center items-center"
+            className="flex justify-center items-center"
             style={{
               height: `${pieceSize * player.pieces[piece].height}px`,
               width: `${pieceSize * player.pieces[piece].width}px`,

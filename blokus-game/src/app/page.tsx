@@ -12,9 +12,7 @@ import Player from "./components/Classes/Player";
 import Game from "./components/Classes/Game";
 
 // TODO:
-//  - display player turn
 //  - score calculation
-//  - fix create player more than 4
 //  - add "remove player" (optional)
 //  - check endgame (if no more move is possible)
 
@@ -158,10 +156,10 @@ export default function Home() {
             />
           </div>
           <div className="h-screen flex-1 bg-blue-200 border-solid border-blue-500 border flex flex-col justify-between">
-            {game.players[2] ? (
+            {game.players[3] ? (
               <RenderPiecePanel
                 pieceSize={pieceSize}
-                player={game.players[2]}
+                player={game.players[3]}
                 changePieceFunction={handleChangePiece}
                 enablePlacementFunction={handleEnablePlacement}
               />
@@ -245,10 +243,10 @@ export default function Home() {
                 Start game
               </Button>
             </div>
-            {game.players[3] ? (
+            {game.players[2] ? (
               <RenderPiecePanel
                 pieceSize={pieceSize}
-                player={game.players[3]}
+                player={game.players[2]}
                 changePieceFunction={handleChangePiece}
                 enablePlacementFunction={handleEnablePlacement}
               />

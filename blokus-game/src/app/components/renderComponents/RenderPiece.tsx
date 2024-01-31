@@ -52,11 +52,11 @@ const RenderPiece = ({
       {flippedRotatedCoordinates.map((coordinate, index) => (
         <div
           key={index}
-          className={`absolute bg-violet-400 opacity-50 `}
+          className={`absolute bg-violet-300 opacity-50 border border-solid border-violet-500 `}
           style={{
-            backgroundColor: `${
-              coordinate[0] == 0 && coordinate[1] == 0 ? "red" : ""
-            }`,
+            // backgroundColor: `${
+            //   coordinate[0] == 0 && coordinate[1] == 0 ? "red" : ""
+            // }`,
             height: `${size}px`,
             width: `${size}px`,
             top: `${coordinate[1] * size}px`,
