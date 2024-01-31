@@ -14,6 +14,8 @@ import Game from "./components/Classes/Game";
 // TODO:
 //  - display player turn
 //  - score calculation
+//  - fix create player more than 4
+//  - add "remove player" (optional)
 //  - check endgame (if no more move is possible)
 
 export default function Home() {
@@ -168,7 +170,7 @@ export default function Home() {
             )}
             {/* this is for debugging */}
             <div className="">
-              <Select
+              {/* <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={pieceId}
@@ -196,7 +198,7 @@ export default function Home() {
                 <MenuItem value={"fiveSquare10"}>fiveSquare10</MenuItem>
                 <MenuItem value={"fiveSquare11"}>fiveSquare11</MenuItem>
                 <MenuItem value={"fiveSquare12"}>fiveSquare12</MenuItem>
-              </Select>
+              </Select> */}
               <div>Current piece id: {pieceId}</div>
               <Button
                 color="secondary"
@@ -216,13 +218,15 @@ export default function Home() {
                 color="secondary"
                 variant="contained"
                 onClick={() => {
-                  console.log("adding new bois");
-                  const newPlayer = new Player(
-                    `name${game.players.length + 1}`,
-                    "red",
-                    game.players.length + 1
-                  );
-                  setPlayers([...players, newPlayer]);
+                  if (players.length < 4) {
+                    console.log("adding new bois");
+                    const newPlayer = new Player(
+                      `name${game.players.length + 1}`,
+                      "red",
+                      game.players.length + 1
+                    );
+                    setPlayers([...players, newPlayer]);
+                  }
                 }}
               >
                 Add new player
