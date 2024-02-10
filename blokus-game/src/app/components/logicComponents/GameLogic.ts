@@ -3,13 +3,13 @@ import CoordinatesArray from "@/app/types/CoordinatesArray";
 const GameLogic = {
   // check if the piece is out of bound
   isOutOfBound: (coordinates: CoordinatesArray) => {
-    let result = true;
+    let result = false;
     coordinates.forEach((coordinate) => {
       if (coordinate[0] < 0 || coordinate[0] > 19) {
-        result = false;
+        result = true;
       }
       if (coordinate[1] < 0 || coordinate[1] > 19) {
-        result = false;
+        result = true;
       }
     });
     return result;

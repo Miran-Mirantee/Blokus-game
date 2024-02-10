@@ -42,7 +42,7 @@ const UpdateBoardValues = (
   );
 
   // check if the blokus piece is placable
-  if (!GameLogic.isOutOfBound(flippedRotatedCoordinates)) {
+  if (GameLogic.isOutOfBound(flippedRotatedCoordinates)) {
     return updatedBoard;
   }
 
