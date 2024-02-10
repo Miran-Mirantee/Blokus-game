@@ -10,10 +10,10 @@ import Player from "./components/Classes/Player";
 import Game from "./components/Classes/Game";
 
 // TODO:
-//  - score calculation
 //  - add "remove player" (optional)
-//  - restart game bug
 //  - check endgame (if no more move is possible)
+//    - score calculation
+//  - bug: doesn't render player pieces unless a cursor is moved
 
 export default function Home() {
   const [pieceId, setPieceId] =
@@ -26,14 +26,6 @@ export default function Home() {
   const [game, setGame] = useState<Game>();
 
   const pieceSize = 25;
-
-  // useEffect(() => {
-  //   // temporary players
-  //   const player1 = new Player("nu_ko", "red", 1);
-  //   const player2 = new Player("mirantee", "blue", 2);
-  //   setPlayers([player1, player2]);
-  //   console.log("wassap daring");
-  // }, []);
 
   useEffect(() => {
     if (players) {
