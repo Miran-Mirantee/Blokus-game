@@ -14,6 +14,9 @@ import Game from "./components/Classes/Game";
 //  - check endgame (if no more move is possible)
 //    - score calculation
 //  - bug: doesn't render player pieces unless a cursor is moved
+//  - bug: restart game bug
+//  - refactor: put updateBoardValues into Game.ts
+//  - refactor: change setBoard logic to only update the board (not checking for end game)
 
 export default function Home() {
   const [pieceId, setPieceId] =

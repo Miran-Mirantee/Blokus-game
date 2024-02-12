@@ -14,6 +14,7 @@ class Game {
   currentPlayer: Player | null;
   board: number[][];
   roundCount: number;
+  skipCount: number;
   firstPlayer: Player | null;
   playerOrder: String[];
 
@@ -22,6 +23,7 @@ class Game {
     this.board = this.createBoard();
     this.currentPlayer = null;
     this.roundCount = 1;
+    this.skipCount = 0;
     this.firstPlayer = null;
     this.playerOrder = [];
   }
@@ -33,12 +35,20 @@ class Game {
     return Game.instance;
   }
 
+  // set the board
   public setBoard(board: number[][]): void {
     this.board = board;
+    this.skipCount = 0;
     if (this.currentPlayer && this.isGameOver(this.currentPlayer)) {
+      this.skipCount += 1;
+      console.log("skip", this.skipCount);
       // can only be called here, since this is where we get the latest version of game's board
-      // console.log(this.isGameOver(this.currentPlayer));
       this.changeTurn();
+
+      // game ends when all players skip the round
+      if (this.skipCount === this.players.length) {
+        this.endGame();
+      }
       console.log(this.currentPlayer);
     }
   }
@@ -158,6 +168,15 @@ class Game {
       }
     }
     return true;
+  }
+
+  public calculateScore(player: Player): number {
+    return 1;
+  }
+
+  public endGame() {
+    this.currentPlayer?.togglePlayerTurn();
+    console.log("the game is already ended");
   }
 }
 
