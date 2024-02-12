@@ -35,8 +35,10 @@ class Game {
 
   public setBoard(board: number[][]): void {
     this.board = board;
-    if (this.currentPlayer) {
-      console.log(this.isGameOver(this.currentPlayer));
+    if (this.currentPlayer && this.isGameOver(this.currentPlayer)) {
+      // can only be called here, since this is where we get the latest version of game's board
+      // console.log(this.isGameOver(this.currentPlayer));
+      this.changeTurn();
       console.log(this.currentPlayer);
     }
   }
@@ -91,7 +93,6 @@ class Game {
 
   // events happen after player place a blokus piece
   public playerPlaceBlokus(blokusPiece: string): void {
-    // will have a problem in the future for sure
     // update a placed blokus piece status
     if (this.currentPlayer) {
       this.currentPlayer.pieces[blokusPiece].isUsed = true;
@@ -100,6 +101,7 @@ class Game {
     this.changeTurn();
   }
 
+  // check if there's any possible move for the player
   public isGameOver(player: Player): boolean {
     const pieceKeys = Object.entries(player.pieces)
       .filter(([_, value]) => value.isUsed === false)
@@ -110,16 +112,13 @@ class Game {
       // Iterate through each cell of the piece
       for (let x = 0; x < 20; x++) {
         for (let y = 0; y < 20; y++) {
-          // check if the blokus piece is placable
-          // console.log("x", x, "y", y);
-          // console.log("selected", pieceKey);
+          // check if the blokus piece is placable with every rotate and flip
           for (let rotate = 0; rotate < 4; rotate++) {
             for (let flip = 0; flip < 2; flip++) {
               // Retrieve the appropriate CreateSquare function based on the id
               const createSquareFunction = CreatePiece[
                 pieceKey
               ] as CreateSquareCallback;
-              // console.log("flip", flip, "rotate", rotate);
 
               const coordinates: CoordinatesArray = createSquareFunction(
                 x,
@@ -135,25 +134,11 @@ class Game {
                 flip
               );
 
-              // if (!GameLogic.isOutOfBound(flippedRotatedCoordinates)) {
-              //   console.log("??1");
-              //   return true;
-              // }
-
-              // // check if the blokus piece is overlapping another piece
-              // if (!GameLogic.isOverlap(board, flippedRotatedCoordinates)) {
-              //   console.log("??2");
-              //   return true;
-              // }
-
               // check if the blokus piece is placeable according to game rules
-
               if (!GameLogic.isOutOfBound(flippedRotatedCoordinates)) {
-                // console.log("??3");
                 if (
                   !GameLogic.isOverlap(this.board, flippedRotatedCoordinates)
                 ) {
-                  // console.log("??2");
                   if (
                     GameLogic.isPlaceable(
                       this.board,
@@ -161,30 +146,18 @@ class Game {
                       this.roundCount == 1
                     )
                   ) {
-                    // console.log("??1");
-                    return true;
+                    return false;
                   }
                   break;
-                  // return false;
                 }
                 break;
-                // return false;
               }
-
-              // if (!GameLogic.isOverlap(this.board, flippedRotatedCoordinates)) {
-              //   console.log("??2");
-              //   return true;
-              // }
-              // if (!GameLogic.isOutOfBound(flippedRotatedCoordinates)) {
-              //   console.log("??1");
-              //   return true;
-              // }
             }
           }
         }
       }
     }
-    return false;
+    return true;
   }
 }
 

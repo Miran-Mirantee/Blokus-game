@@ -135,7 +135,7 @@ export default function Home() {
                 transform: "translate(-50%, -50%)",
               }}
             >
-              {game.currentPlayer?.name} turn
+              {game.currentPlayer ? game.currentPlayer.name + "'s turn" : ""}
             </div>
             {game.players[1] ? (
               <RenderPiecePanel
